@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="sidratul" />
+	<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+	<title></title>
+	<style type="text/css">
+		#seatContainer2{
+			/*width: 600px;*/
+			background: #ddd;
+			/*display: none;*/
+		}
+
+
+
+		.bt-seat-wrapper{
+			/*border: 1px solid #999;*/
+			padding: 10px;
+		}
+
+		.bt-bus{
+			/*border: 1px solid #000;*/
+			display: table-cell;
+			width: 40px;
+			padding-bottom: 20%;
+			height: 0;
+			position: relative;
+		}
+
+		.bt-bus.space{
+			/*border-color: transparent;*/
+		}
+
+		.clearfix{
+		    clear: both;
+		    display: table;
+		}
+
+	/*	.clearfix:before, .clearfix:after {
+		    content: "";
+		    
+		}*/
+
+		.sprite{
+		    background-size: 1000%;
+		    background-image: url(images/sprite_seat_vertical.png);
+			background-repeat: no-repeat;
+		}
+		
+		.driver{
+		    background-position: 1.5% 8.2%;
+		}
+
+		.available{
+		    background-position: 13.2% 8.2%;
+		}
+
+		.sold{
+		    background-position: 25.5% 8.2%;
+		}
+
+		.booked{
+		    background-position: 38.5% 8.2%;
+		}
+
+		.picked{
+		    background-position: 51.2% 8.2%;
+		}
+
+		.toilet{
+			background-position: 71.3% 8.2%;
+		}
+
+		.smoking{
+			background-position: 98.3% 8.2%;
+		}
+
+		.more{
+			/*position: absolute;*/
+			width: 80px;
+			padding-bottom: 9.62%;
+			background-size: 500%;
+		}
+
+		.hide{
+			display: none;
+		}
+
+		.driverH{
+		    background-position: 0% 0.5%;
+		}
+
+		.spriteH{
+		    background-size: 100%;
+		    background-image: url(images/sprite_seat_horizontal.png);
+			background-repeat: no-repeat;
+		}
+
+		.availableH{
+		    background-position: 0% 50%;
+		}
+
+		.soldH{
+		    background-position: 0% 38%;
+		}
+
+		.bookedH{
+		    background-position: 0% 25%;
+		}
+
+		.pickedH{
+		    background-position: 0% 12.5%;
+		}
+
+		.toiletH{
+			background-position: 71.3% 8.2%;
+		}
+
+		.smokingH{
+			background-position: 98.3% 8.2%;
+		}
+
+		.smokingH.moreH{
+			/*position: absolute;*/
+			background-position: 0% 63%;
+		}
+
+		.smokingH.hideH{
+			background-position: 0% 73.8%;
+		}
+
+		.smokingH.hideH{
+			background-position: 0% 73.8%;
+		}
+
+		.toiletH.hideH{
+			background-position: 0% 97.8%;
+		}
+
+		.toiletH.moreH{
+			background-position:0% 87%;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="seatContainer">
+		<div class="bt-seat-wrapper">
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus sprite driver"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus sprite booked"></div>
+			<div class="bt-bus sprite picked"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus more sprite toilet"></div>
+			<div class="bt-bus hide sprite toilet"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus more sprite smoking"></div>
+			<div class="bt-bus hide sprite smoking"></div>
+		</div>
+	</div>
+
+	<div id="seatContainer2">
+		<div class="bt-seat-wrapper">
+			<div class="bt-bus spriteH driverH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus spriteH bookedH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus moreH spriteH smokingH"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus spriteH pickedH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus hideH spriteH smokingH"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus spriteH soldH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus moreH spriteH toiletH"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus spriteH availableH"></div>
+			<div class="bt-bus hideH spriteH toiletH"></div>
+<!-- 			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus space"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus sprite sold"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus sprite booked"></div>
+			<div class="bt-bus sprite picked"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="bt-bus sprite available"></div>
+			<div class="clearfix"></div>
+			<div class="bt-bus more sprite toilet"></div>
+			<div class="bt-bus hide sprite toilet"></div>
+			<div class="bt-bus space"></div>
+			<div class="bt-bus more sprite smoking"></div>
+			<div class="bt-bus hide sprite smoking"></div> -->
+		</div>
+	</div>
+	<div id="contener">
+		<!-- <div id="coba" class="coba" style="background:#ccc"></div> -->
+	</div>
+	<div class="coba" style="background:#ccc"></div>
+	<div class="coba" style="background:#ccc"></div>
+	</div>
+	<script type="text/javascript" src="js/bosbis-template.js"></script>
+	<script type="text/javascript">
+		var template = new Template({
+			align : "left",
+			seatMatrix : "C-1-E,C-2-E,C-3-E,C-4-E,B-5-D,C-6-S-1A,C-7-S-1B,C-8-E,C-9-S-1C,B-10-S-1D,C-11-S-2A,C-12-S-2B,C-13-E,C-14-S-2C,B-15-S-2D,C-16-S-3A,C-17-S-3B,C-18-E,C-19-S-3C,B-20-S-3D,C-21-S-4A,C-22-S-4B,C-23-E,C-24-S-4C,B-25-S-4D,C-26-S-5A,C-27-S-5B,C-28-E,C-29-S-5C,B-30-S-5D,C-31-S-6A,C-32-S-6B,C-33-E,C-34-S-6C,B-35-S-6D,C-36-S-7A,C-37-S-7B,C-38-E,C-39-S-7C,B-40-S-7D,C-41-S-8A,C-42-S-8B,C-43-E,C-44-S-8C,B-45-S-8D,C-46-E,C-47-E,C-48-E,C-49-S-9A,B-50-S-9B,C-51-T,C-52-T,C-53-E,C-54-S-10C,B-55-S-10D",
+			seatContainer : ".coba",
+			availableSeats : ["1B","1C","1D","9A","9B","10C","10D","2A","2B"],
+			pickedSeats : ["1A"],
+			bookedSeats : ["10C"],
+			soldSeats : ["8C","8D"],
+			isRestSold : true
+		})
+
+		console.log(template)
+
+		template.regen();		
+	</script>
+</body>
+</html>
