@@ -317,10 +317,6 @@ var Template;
 		return getPickedLength()
 	}
 
-	Template.prototype.setBooked = function(seats) {
-		
-	}
-
 	Template.prototype.setSold = function(seats) {
 		changeSeat(seats,setSold)
 	}
