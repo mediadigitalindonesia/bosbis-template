@@ -25,8 +25,7 @@ var Template;
 		generateTemplate(this)
 	}
 
-	function extendObject(opt,options){		
-
+	function extendObject(opt,options){
 		/*return Object.assign({}, opt, options)*/
 		for (var prop in options) {
 		  	if (options.hasOwnProperty(prop)) opt[prop] = options[prop]
