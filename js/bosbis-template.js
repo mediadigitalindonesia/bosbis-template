@@ -1,27 +1,7 @@
 var Template;
 (function(){
 	"use strict";
-	var usedStyle = {},
-		options = {
-			align : "left",
-			seatMatrix : null,
-			seatContainer : null,
-			availableSeats : [],
-			pickedSeats : [],
-			bookedSeats : [],
-			soldSeats : [],
-			isRestSold: false,
-			templateAlign : "horizontal",
-			seatClicked : function(){},
-			beforePick : function(){},
-			clickAvailable : function(){},
-			clickPicked : function(){},
-			clickBooked : function(){},
-			clickSold : function(){},
-			clickDriver : function(){}
-
-		},
-		vrStyle = {
+	var vrStyle = {
 			sprite : "background-image:url(images/sprite_seat_vertical.png);background-repeat: no-repeat;",
 			seat :"background-size: 1000%;",
 			room :"background-size: 500%;",
@@ -58,8 +38,52 @@ var Template;
 		}
 	
 	Template = function(opts){
-		options = extendObject(options,opts)
-		usedStyle = getStyle()
+		var self = this
+		this.options = {
+			align : "left",
+			seatMatrix : null,
+			seatContainer : null,
+			availableSeats : [],
+			pickedSeats : [],
+			bookedSeats : [],
+			soldSeats : [],
+			isRestSold: false,
+			templateAlign : "horizontal",
+			seatClicked : function(){},
+			beforePick : function(){},
+			clickAvailable : function(){},
+			clickPicked : function(){},
+			clickBooked : function(){},
+			clickSold : function(){},
+			clickDriver : function(){}
+		}
+
+		this.events = {
+			availEvent : function(e){
+				var cont = self.options.beforePick(getSeatNumber(this),this)
+				if(cont) return
+				setPicked(this,self)
+				this.removeEventListener("click",self.events.availEvent)
+				self.options.clickAvailable(getSeatNumber(this),this)
+			},
+			pickedEvent : function(e){
+				setAvailable(this,self)
+				this.removeEventListener("click",self.events.pickedEvent)
+				self.options.clickPicked(getSeatNumber(this),this)
+			},
+			bookedEvent :function(e){
+				self.options.clickBooked(getSeatNumber(this),this)
+			},
+			soldEvent: function (e){
+				self.options.clickSold(getSeatNumber(this),this)
+			},
+			driverEvent :function(e){
+				self.options.clickDriver(getSeatNumber(this),this)
+			}
+		}
+
+		this.options = extendObject(this.options,opts)
+		this.usedStyle = this.getStyle()
 		generateTemplate(this)
 	}
 
@@ -82,109 +106,60 @@ var Template;
 		return el
 	}
 
-	function setAvailable(el){
-		el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.seat,usedStyle.available)
+	function setAvailable(el,self){
+		el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.seat,self.usedStyle.available)
 		el.dataset.seatId = seatId.available
-		el.addEventListener("click",availEvent,false)
+		el.addEventListener("click",self.events.availEvent,false)
 	}
 
-	function setBooked(el){
-		el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.seat,usedStyle.booked)
+	function setBooked(el,self){
+		el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.seat,self.usedStyle.booked)
 		el.dataset.seatId = seatId.booked
-		el.addEventListener("click",bookedEvent,false)
+		el.addEventListener("click",self.events.bookedEvent,false)
 	}
 
-	function setSold(el){
-		el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.seat,usedStyle.sold)
+	function setSold(el,self){
+		el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.seat,self.usedStyle.sold)
 		el.dataset.seatId = seatId.sold
-		el.addEventListener("click",soldEvent,false)
+		el.addEventListener("click",self.events.soldEvent,false)
 	}
 
-	function setPicked(el){
-		el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.seat,usedStyle.picked)
+	function setPicked(el,self){
+		el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.seat,self.usedStyle.picked)
 		el.dataset.seatId = seatId.picked
-		el.addEventListener("click",pickedEvent,false)
+		el.addEventListener("click",self.events.pickedEvent,false)
 	}
 
-	function setDriver(el){
-		el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.seat,usedStyle.driver)
+	function setDriver(el,self){
+		el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.seat,self.usedStyle.driver)
 		el.dataset.seatId = seatId.driver
-		el.addEventListener("click",driverEvent,false)
+		el.addEventListener("click",self.events.driverEvent,false)
 	}
 
-	function setToilet(el,index){
-		if(!isAlignLeft() && !isVertical()) {
-			if(index==0) el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.toilet2)
-			else el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.toilet1)
+	function setToilet(el,index,self){
+		if(!self.isAlignLeft() && !self.isVertical()) {
+			if(index==0) el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.toilet2)
+			else el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.toilet1)
 		}else{
-			if(index==0) el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.toilet1)
-			else el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.toilet2)
+			if(index==0) el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.toilet1)
+			else el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.toilet2)
 		}
 	}
 
-	function setSmoking(el,index){
-		if(!isAlignLeft() && !isVertical()) {
-			if(index==0) el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.smoking2)
-			else el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.smoking1)
+	function setSmoking(el,index,self){
+		if(!self.isAlignLeft() && !self.isVertical()) {
+			if(index==0) el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.smoking2)
+			else el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.smoking1)
 		}else{
-			if(index==0) el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.smoking1)
-			else el.style.cssText = el.style.cssText.concat(usedStyle.sprite,usedStyle.room,usedStyle.smoking2)
+			if(index==0) el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.smoking1)
+			else el.style.cssText = el.style.cssText.concat(self.usedStyle.sprite,self.usedStyle.room,self.usedStyle.smoking2)
 		}
-	}
-
-	function getStyle(){
-		if(isVertical())
-			return vrStyle
-		return hrStyle		
 	}
 
 	function getSeatObject(seatNum){
 		return document.querySelector("[data-seat-number='"+seatNum+"']");
 	}
-
-	function isVertical(){
-		return !options.templateAlign.match(/horizontal/gi)
-	}
-
-	function isAlignLeft(){
-		return !options.align.match(/right/gi)
-	}
-
-	function availEvent(e){
-		var cont = options.beforePick(getSeatNumber(this),this)
-		if(cont) return
-		setPicked(this)
-		this.removeEventListener("click",availEvent)
-		options.clickAvailable(getSeatNumber(this),this)
-	}
-
-	function pickedEvent(){
-		setAvailable(this)
-		this.removeEventListener("click",pickedEvent)
-		options.clickPicked(getSeatNumber(this),this)
-	}
-
-	function removeEvent(el){
-		if(el.dataset.seatId == seatId.available) el.removeEventListener("click",availEvent)
-		else if(el.dataset.seatId == seatId.picked) el.removeEventListener("click",pickedEvent)
-		else if(el.dataset.seatId == seatId.booked) el.removeEventListener("click",bookedEvent)
-		else if(el.dataset.seatId == seatId.sold) el.removeEventListener("click",soldEvent)
-		else return false
-		return true
-	}
-
-	function bookedEvent(){
-		options.clickBooked(getSeatNumber(this),this)
-	}
-
-	function soldEvent(){
-		options.clickSold(getSeatNumber(this),this)
-	}
-
-	function driverEvent(){
-		options.clickDriver(getSeatNumber(this),this)
-	}
-
+	
 	function getSeatNumber(el){
 		return el.dataset.seatNumber
 	}
@@ -197,9 +172,25 @@ var Template;
 		return document.querySelectorAll("[data-seat-id='"+seatId.picked+"']")
 	}
 
-	function generateTemplate(){
+	function changeSeat(seats,cfunc,self) {
+		for (var i in seats) {
+			var el = getSeatObject(seats[i]) 
+			if(!removeEvent(el,self)) return 
+			cfunc(el,self)
+		}
+	}
 
-		var matrix = options.seatMatrix.split(","),
+	function removeEvent(el,self){
+		if(el.dataset.seatId == seatId.available) el.removeEventListener("click",self.events.availEvent)
+		else if(el.dataset.seatId == seatId.picked) el.removeEventListener("click",self.events.pickedEvent)
+		else if(el.dataset.seatId == seatId.booked) el.removeEventListener("click",self.events.bookedEvent)
+		else if(el.dataset.seatId == seatId.sold) el.removeEventListener("click",self.events.soldEvent)
+		else return false
+		return true
+	}
+
+	function generateTemplate(self){
+		var matrix = self.options.seatMatrix.split(","),
 			toiletIn = 0, 
 			smokingIn = 0,
 			row =0,
@@ -207,7 +198,7 @@ var Template;
 			colLength = 0,
 			arrayElement = []
 		
-		var containerEl = document.querySelector(options.seatContainer)
+		var containerEl = document.querySelector(self.options.seatContainer)
 		containerEl.innerHTML = ""
 		for(var matIn in matrix){
 			var colMat = matrix[matIn].split("-"),
@@ -217,24 +208,24 @@ var Template;
 
  			switch(colMat[2]){
 				case "D" :
-					setDriver(spaceEl)
+					setDriver(spaceEl,self)
 			    	break;
 		    	case "S":
 		    		var seatNumber = colMat[3].trim(),
 						seatStyle = ""
-		    		if(options.bookedSeats.indexOf(seatNumber) !== -1){
-		    			setBooked(spaceEl)
-		    		} else if(options.soldSeats.indexOf(seatNumber) !== -1){
-		    			setSold(spaceEl)
-		    		} else if(options.pickedSeats.indexOf(seatNumber) !== -1){
-		    			setPicked(spaceEl)
-		    		} else if(options.availableSeats.indexOf(seatNumber) !== -1){
-		    			setAvailable(spaceEl)
+		    		if(self.options.bookedSeats.indexOf(seatNumber) !== -1){
+		    			setBooked(spaceEl,self)
+		    		} else if(self.options.soldSeats.indexOf(seatNumber) !== -1){
+		    			setSold(spaceEl,self)
+		    		} else if(self.options.pickedSeats.indexOf(seatNumber) !== -1){
+		    			setPicked(spaceEl,self)
+		    		} else if(self.options.availableSeats.indexOf(seatNumber) !== -1){
+		    			setAvailable(spaceEl,self)
 		    		} else{
-		    			if(options.isRestSold){
-		    				setSold(spaceEl)
+		    			if(self.options.isRestSold){
+		    				setSold(spaceEl,self)
 		    			} else {
-		    				setAvailable(spaceEl)
+		    				setAvailable(spaceEl,self)
 		    			}
 		    		}
 
@@ -242,29 +233,29 @@ var Template;
 		    		spaceEl.dataset.seatNumber = seatNumber
 		    		break;
 		    	case "T":
-		    		setToilet(spaceEl,toiletIn)
+		    		setToilet(spaceEl,toiletIn,self)
 	    			toiletIn++
 		    		break;
 		    	case "R":
-		    		setSmoking(spaceEl,smokingIn)
+		    		setSmoking(spaceEl,smokingIn,self)
 	    			smokingIn++
 		    		break;
 		    	default : 
 		    		break;
 			}
 
-			if(isVertical()){
+			if(self.isVertical()){
 				
 				if(col == 0){
 					arrayElement[row] =[spaceEl]
 				}else{
-					if(isAlignLeft()) arrayElement[row].push(spaceEl)
+					if(self.isAlignLeft()) arrayElement[row].push(spaceEl)
 					else arrayElement[row].unshift(spaceEl)
 				}
 
 			}else{
 
-				if(isAlignLeft()){
+				if(self.isAlignLeft()){
 					if(row==0)arrayElement.unshift([spaceEl])
 					else arrayElement[arrayElement.length-col-1].push(spaceEl)
 				}else{
@@ -291,22 +282,27 @@ var Template;
 		}
 	}
 
-	function changeSeat(seats,cfunc) {
-		for (var i in seats) {
-			var el = getSeatObject(seats[i]) 
-			if(!removeEvent(el)) return 
-			cfunc(el)
-		}
+	Template.prototype.getStyle = function(){
+		if(this.isVertical()) return vrStyle
+		return hrStyle		
+	}
+
+	Template.prototype.isVertical = function() {
+		return !this.options.templateAlign.match(/horizontal/gi)
+	}
+
+	Template.prototype.isAlignLeft = function() {
+		return !this.options.align.match(/right/gi)
 	}
 
 	Template.prototype.setOptions = function(opts) {
-		options = extendObject(options,opts)
+		this.options = extendObject(this.options,opts)
 	}
 
 	Template.prototype.regen = function(opts) {
-		if(opts)options = extendObject(options,opts)
-		usedStyle = getStyle()
-		generateTemplate()
+		if(opts)this.options = extendObject(this.options,opts)
+		this.usedStyle = this.getStyle()
+		generateTemplate(this)
 	}
 
 	Template.prototype.getPickedSeats = function() {
@@ -318,12 +314,11 @@ var Template;
 	}
 
 	Template.prototype.setSold = function(seats) {
-		changeSeat(seats,setSold)
+		changeSeat(seats,setSold,this)
 	}
 
 	Template.prototype.setBooked = function(seats) {
-		changeSeat(seats,setBooked)
+		changeSeat(seats,setBooked,this)
 	}
 
-	
 }())

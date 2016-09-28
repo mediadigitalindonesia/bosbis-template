@@ -29,7 +29,7 @@ You can set the following options:
 * `pickedSeats` : [],
 * `bookedSeats` : [],
 * `soldSeats` : [],
-* `isRestSold`: false,
+* `isRestSold`: rest,
 * `templateAlign` : "horizontal",
 * `seatClicked` : function(){},
 * `beforePick` : function(){},
