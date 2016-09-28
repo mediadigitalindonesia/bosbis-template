@@ -55,7 +55,8 @@ var Template;
 			clickPicked : function(){},
 			clickBooked : function(){},
 			clickSold : function(){},
-			clickDriver : function(){}
+			clickDriver : function(){},
+			imageDir : "images/"
 		}
 
 		this.events = {
@@ -283,8 +284,11 @@ var Template;
 	}
 
 	Template.prototype.getStyle = function(){
-		if(this.isVertical()) return vrStyle
-		return hrStyle		
+		var styles = {}
+		if(this.isVertical()) styles = vrStyle
+		else styles = hrStyle
+		styles.sprite = styles.sprite.replace("images/",this.options.imageDir)
+		return styles	
 	}
 
 	Template.prototype.isVertical = function() {
