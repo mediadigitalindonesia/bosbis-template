@@ -214,13 +214,13 @@ var Template;
 		    	case "S":
 		    		var seatNumber = colMat[3].trim(),
 						seatStyle = ""
-		    		if(self.options.bookedSeats.indexOf(seatNumber) !== -1){
+		    		if(self.options.bookedSeats.map(String).indexOf(seatNumber) !== -1){
 		    			setBooked(spaceEl,self)
-		    		} else if(self.options.soldSeats.indexOf(seatNumber) !== -1){
+		    		} else if(self.options.soldSeats.map(String).indexOf(seatNumber) !== -1){
 		    			setSold(spaceEl,self)
-		    		} else if(self.options.pickedSeats.indexOf(seatNumber) !== -1){
+		    		} else if(self.options.pickedSeats.map(String).indexOf(seatNumber) !== -1){
 		    			setPicked(spaceEl,self)
-		    		} else if(self.options.availableSeats.indexOf(seatNumber) !== -1){
+		    		} else if(self.options.availableSeats.map(String).indexOf(seatNumber) !== -1){
 		    			setAvailable(spaceEl,self)
 		    		} else{
 		    			if(self.options.isRestSold){
