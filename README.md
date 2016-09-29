@@ -36,12 +36,12 @@ Name | value | default | description
 `imageDir` | string | "images/" | the directory of template image
 `templateAlign` | string (horizontal,vertical) | "horizontal" | the align of the template
 `seatClicked` | function | function(){} | The function will be called when available seat clicked but before the seat changed as picked. return true in the function will prevent seat change to picked. [see](#example-2)
-`beforePick` | function | function(){} | The function will be called when available seat clicked, before the seat changed as picked
-`clickAvailable` | function | function(){} | The function will be called when available seat clicked, after the seat changed as picked. The function will get 2 argument which are seatNumber and DOM of seat
-`clickPicked` | function | function(){} | The function will be called when picked seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
-`clickBooked` | function | function(){} | The function will be called when booked seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
-`clickSold` | function | function(){} | The function will be called when sold seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
-`clickDriver` | function | function(){} | The function will be called when driver seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
+`beforePick` | function | function(seat,el){} | The function will be called when available seat clicked, before the seat changed as picked
+`clickAvailable` | function | function(seat,el){} | The function will be called when available seat clicked, after the seat changed as picked. The function will get 2 argument which are seatNumber and DOM of seat
+`clickPicked` | function | function(seat,el){} | The function will be called when picked seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
+`clickBooked` | function | function(seat,el){} | The function will be called when booked seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
+`clickSold` | function | function(seat,el){} | The function will be called when sold seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
+`clickDriver` | function | function(seat,el){} | The function will be called when driver seat clicked. The function will get 2 argument which are seatNumber and DOM of seat
 
 ## Method
 
@@ -71,7 +71,7 @@ You can call the following method:
 		isRestSold: true,
 		templateAlign : "horizontal",
 		seatClicked : function(seatNumber,element){
-			alert("you picked seat #")
+			alert("you picked seat #"+seatNumber)
 		}
 	})
 </script>
